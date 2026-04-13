@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CancerGenomics — Tumor Genomic Analysis Engine</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(120, 180, 120, 0.15);
+      border: 1px solid rgba(120, 180, 120, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #8bc48b;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, #999 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline {
+      font-size: 18px;
+      color: #888;
+      margin-bottom: 32px;
+    }
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 60px;
+      transition: all 0.2s;
+    }
+    .github-link:hover {
+      background: #252525;
+      border-color: #555;
+    }
+    .github-link svg { width: 20px; height: 20px; }
+    .section {
+      margin-bottom: 48px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #666;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #222;
+    }
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .module-card {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+    .module-card:hover {
+      border-color: #333;
+      transform: translateY(-2px);
+    }
+    .module-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .module-card p {
+      font-size: 13px;
+      color: #666;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .stat-box {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .code-block {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      color: #b0b0b0;
+      line-height: 1.7;
+    }
+    .code-block .comment { color: #555; }
+    .code-block .keyword { color: #c678dd; }
+    .code-block .function { color: #61afef; }
+    .code-block .string { color: #98c379; }
+    .code-block .number { color: #d19a66; }
+    .output-box {
+      background: #0d1117;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+    }
+    .output-line {
+      padding: 2px 0;
+      color: #888;
+    }
+    .output-line .highlight { color: #8bc48b; }
+    .output-line .dim { color: #555; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+    }
+    th {
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      padding: 12px 16px;
+      border-bottom: 1px solid #222;
+    }
+    td {
+      font-size: 14px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #1a1a1a;
+      color: #aaa;
+    }
+    td:first-child {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      color: #8bc48b;
+      font-size: 13px;
+    }
+    tr:hover td { background: #0a0a0a; }
+    .footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid #1e1e1e;
+      color: #555;
+      font-size: 13px;
+    }
+    .footer a { color: #666; text-decoration: none; }
+    .footer a:hover { color: #888; }
+    @media (max-width: 768px) {
+      .modules-grid { grid-template-columns: 1fr 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 32px; }
+    }
+    @media (max-width: 480px) {
+      .modules-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">Executable Agent Skill</div>
+    <h1>CancerGenomics</h1>
+    <p class="tagline">Tumor Genomic Analysis Engine — pure NumPy/SciPy/sklearn. No GATK, no CNVkit, no R.</p>
+
+    <a class="github-link" href="https://github.com/junior1p/CancerGenomics">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      View on GitHub
+    </a>
+
+    <div class="section">
+      <div class="section-title">Quick Stats</div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-value">6</div>
+          <div class="stat-label">Analysis Modules</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">10</div>
+          <div class="stat-label">COSMIC Signatures</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">0</div>
+          <div class="stat-label">External Dependencies</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">&lt;30s</div>
+          <div class="stat-label">Runtime (CPU)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Modules</div>
+      <div class="modules-grid">
+        <div class="module-card">
+          <h3>CNV Detection</h3>
+          <p>Circular Binary Segmentation → absolute copy number states</p>
+        </div>
+        <div class="module-card">
+          <h3>TMB & MSI</h3>
+          <p>Tumor mutational burden + microsatellite instability</p>
+        </div>
+        <div class="module-card">
+          <h3>Mutational Signatures</h3>
+          <p>COSMIC SBS96 decomposition via NMF/NNLS</p>
+        </div>
+        <div class="module-card">
+          <h3>Neoantigen Prediction</h3>
+          <p>MHC-I binding affinity (PWM model) for vaccine candidates</p>
+        </div>
+        <div class="module-card">
+          <h3>Clonal Architecture</h3>
+          <p>CCF estimation + Dirichlet clustering + phylogenetic tree</p>
+        </div>
+        <div class="module-card">
+          <h3>Genomic Instability</h3>
+          <p>LOH fraction, aneuploidy score, HRD score</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Quick Start</div>
+      <div class="code-block">
+<pre><span class="keyword">from</span> cancer_genomics <span class="keyword">import</span> run_cancer_genomics
+
+<span class="comment"># Full pipeline with synthetic lung tumor</span>
+summary = run_cancer_genomics(
+    tumor_type=<span class="string">"lung"</span>,
+    out_dir=<span class="string">"cancer_output"</span>,
+    tumor_purity=<span class="number">0.70</span>,
+    covered_mb=<span class="number">30.0</span>,
+    hla_alleles=[<span class="string">"HLA-A*02:01"</span>],
+    run_cnv=<span class="keyword">True</span>,
+    run_neoantigens=<span class="keyword">True</span>,
+)
+<span class="function">print</span>(summary)</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Example Output (Lung Adenocarcinoma)</div>
+      <div class="output-box">
+        <div class="output-line"><span class="dim">[1/6]</span> Generating synthetic lung tumor mutations...</div>
+        <div class="output-line"><span class="dim">[2/6]</span> TMB: <span class="highlight">8.10 mut/Mb</span> (Intermediate) | MSI: MSS | Drivers: 16</div>
+        <div class="output-line"><span class="dim">[3/6]</span> Signature decomposition: cosine similarity = 0.9177</div>
+        <div class="output-line"><span class="dim">[4/6]</span> CBS complete: <span class="highlight">22 segments</span>, 9 altered (41%)</div>
+        <div class="output-line"><span class="dim">[5/6]</span> Predicted neoantigens: <span class="highlight">50</span> (50 strong binders IC50&lt;50nM)</div>
+        <div class="output-line"><span class="dim">[6/6]</span> Clonal fraction: <span class="highlight">58.2%</span> | Detected clones: 5</div>
+        <div class="output-line" style="margin-top: 12px; border-top: 1px solid #222; padding-top: 12px;">
+          Top signature: <span class="highlight">SBS4</span> (Tobacco smoking)
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">COSMIC Mutational Signatures</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Signature</th>
+            <th>Etiology</th>
+            <th>Cancer Types</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>SBS1</td><td>Age / 5mC deamination</td><td>Ubiquitous</td></tr>
+          <tr><td>SBS2</td><td>APOBEC activity (C>T)</td><td>Breast, bladder, lung</td></tr>
+          <tr><td>SBS3</td><td>BRCA deficiency / HRD</td><td>Breast, ovarian, pancreatic</td></tr>
+          <tr><td>SBS4</td><td>Tobacco smoking</td><td>Lung, head/neck, bladder</td></tr>
+          <tr><td>SBS6</td><td>MMR deficiency</td><td>Colorectal, endometrial</td></tr>
+          <tr><td>SBS7a</td><td>UV exposure</td><td>Melanoma, skin</td></tr>
+          <tr><td>SBS13</td><td>APOBEC activity (C>G)</td><td>Breast, bladder, cervical</td></tr>
+          <tr><td>SBS17a</td><td>Oxidative damage / 5-FU</td><td>Esophageal, gastric</td></tr>
+          <tr><td>SBS22</td><td>Aristolochic acid</td><td>Liver, urothelial</td></tr>
+          <tr><td>SBS31</td><td>Platinum chemotherapy</td><td>Post-chemo tumors</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      <p>CancerGenomics — Pure Python tumor genomics. No GATK, no CNVkit, no maftools, no R.</p>
+      <p style="margin-top: 8px;">References: <a href="https://www.nature.com/articles/s41588-019-0442-7">Olshen 2004</a> · <a href="https://www.nature.com/articles/s41586-019-0973-1">Alexandrov 2020</a> · <a href="https://www.nature.com/articles/nmeth.2883">Roth 2014</a> · <a href="https://www.nature.com/articles/s41580-022-00554-y">Müller 2023</a></p>
+    </div>
+  </div>
+</body>
+</html>

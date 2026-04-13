@@ -1,0 +1,18 @@
+{
+  "tumor_type": "lung",
+  "tumor_purity": 0.7,
+  "n_mutations": 445,
+  "tmb": 8.1,
+  "tmb_class": "Intermediate",
+  "msi_class": "MSS",
+  "dominant_signature": "SBS4",
+  "sig_etiology": "Tobacco smoking (polycyclic aromatic hydrocarbons)",
+  "reconstruction_cosine_similarity": 0.9177142595495791,
+  "n_cnv_segments": 22,
+  "n_neoantigens": 50,
+  "n_strong_neoantigens": 50,
+  "clonal_fraction": 0.582,
+  "n_clones": 5,
+  "n_driver_mutations": 16,
+  "immunotherapy_implication": " Lower predicted response to checkpoint immunotherapy"
+}
